@@ -39,23 +39,21 @@ object DisplayUtils {
         if (window != null) {
             val clazz = window.javaClass
             try {
-                var darkModeFlag = 0
+                val darkModeFlag: Int
                 val layoutParams = Class.forName("android.view.MiuiWindowManager\$LayoutParams")
                 val field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE")
                 darkModeFlag = field.getInt(layoutParams)
                 val extraFlagField =
                     clazz.getMethod("setExtraFlags", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
-                extraFlagField.invoke(window, darkModeFlag, darkModeFlag)//状态栏透明且黑色字体
+                extraFlagField.invoke(window, darkModeFlag, darkModeFlag)
                 result = true
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
                     activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
             } catch (e: Exception) {
                 // do nothing
             }
-
         }
         return result
     }

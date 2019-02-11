@@ -23,7 +23,7 @@ abstract class BaseFragment : Fragment() {
 
     protected abstract fun provideContentView(): View
 
-    fun setBundle(bundle: Bundle): BaseFragment {
+    fun with(bundle: Bundle): BaseFragment {
         arguments = bundle
         return this
     }

@@ -2,4 +2,4 @@ package work.nich.tima.common
 
 const val FEEDLY_BASE_URL = "https://cloud.feedly.com/"
 
-const val ACCESS_KEY = ""
+const val ACCESS_KEY = "AzaM8tJ8q1S-Zubor7JqKhNsgwPfKRVw8K3HuxFya7S1BhD7N6hcKFTPWaRhkZX8kHIpkqM8TxS5zWWtrUlm9a8H7SRam5rm_mXXZM4lCkdhnak5qU1d-4YzNV0_9M6JDTrOlj3m6ciRy3iwgJl7JqoXZE6Rmm5lOmxCjT2mKwzTdz_m06aaPUSEhJTUN1TNgU_TFmILpH0jhj8IxT3tuEcn0KMYVq5C_5UqkWp8QHuKIfgUife2OqWD39w:feedlydev"
