@@ -3,6 +3,7 @@ package work.nich.tima.di
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -10,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import work.nich.tima.common.FEEDLY_BASE_URL
 import work.nich.tima.common.network.ApiService
 import work.nich.tima.common.network.NetworkInterceptor
+import work.nich.tima.view.collection.CollectionViewModel
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
@@ -36,6 +38,10 @@ val appModule = module {
 
     single<ApiService> {
         get<Retrofit>().create(ApiService::class.java)
+    }
+
+    viewModel {
+        CollectionViewModel(get())
     }
 
 }
