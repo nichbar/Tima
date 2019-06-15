@@ -1,6 +1,6 @@
 package work.nich.tima.common.data
 
-data class FeedItem(
+data class Feed(
 	val website: String? = null,
 	val numReadEntriesPastMonth: Int? = null,
 	val added: Long? = null,
