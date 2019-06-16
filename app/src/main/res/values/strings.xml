@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Tima</string>
+
+    <string name="error_no_content">No contents</string>
+    <string name="error_network_unavailable">Network unavailable</string>
+
+    <string name="hint_network_error">Network error</string>
+    <string name="hint_reach_the_end">I have boundaries</string>
 </resources>

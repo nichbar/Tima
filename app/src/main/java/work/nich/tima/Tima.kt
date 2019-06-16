@@ -2,7 +2,8 @@ package work.nich.tima
 
 import android.app.Application
 import com.facebook.stetho.Stetho
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import work.nich.tima.di.appModule
 
 class Tima : Application() {
@@ -16,7 +17,10 @@ class Tima : Application() {
 
         app = this
 
-        startKoin(this, listOf(appModule))
+        startKoin {
+            androidContext(this@Tima)
+            modules(appModule)
+        }
 
         Stetho.initializeWithDefaults(this)
     }

@@ -1,5 +1,6 @@
 package work.nich.tima.view.collection
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,15 +12,16 @@ import work.nich.tima.common.network.Response
 
 class CollectionViewModel(private val mApiService: ApiService) : ViewModel() {
 
-    val collectionLiveData = MutableLiveData<List<Collection>>()
+    val collections = MutableLiveData<List<Collection>>()
 
+    @SuppressLint("CheckResult")
     fun getCollections() {
         mApiService.getPersonalCollections()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object: Response<List<Collection>>() {
+            .subscribe(object : Response<List<Collection>>() {
                 override fun onSuccess(data: List<Collection>) {
-                    collectionLiveData.postValue(data)
+                    collections.postValue(data)
                 }
 
                 override fun onFailure(error: NetworkError) {

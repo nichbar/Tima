@@ -12,7 +12,7 @@ abstract class BaseFragment : Fragment() {
     private lateinit var mLayoutView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mLayoutView = provideContentView()
+        mLayoutView = provideLayoutView()
         ButterKnife.bind(this, mLayoutView)
         return mLayoutView
     }
@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment() {
         return layoutInflater.inflate(id, null)
     }
 
-    protected abstract fun provideContentView(): View
+    protected abstract fun provideLayoutView(): View
 
     fun with(bundle: Bundle): BaseFragment {
         arguments = bundle

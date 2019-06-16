@@ -12,7 +12,7 @@ class CollectionFragment : BaseFragment() {
 
     private val mViewModel: CollectionViewModel by viewModel()
 
-    override fun provideContentView(): View {
+    override fun provideLayoutView(): View {
         return inflate(R.layout.fragment_collection)
     }
 
@@ -20,7 +20,7 @@ class CollectionFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
 
         mViewModel.getCollections()
-        mViewModel.collectionLiveData.observe(this, Observer {
+        mViewModel.collections.observe(this, Observer {
             Toast.makeText(requireContext(), it.size.toString(), Toast.LENGTH_SHORT).show()
         })
     }
