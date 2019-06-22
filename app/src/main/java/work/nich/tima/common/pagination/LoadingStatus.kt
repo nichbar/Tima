@@ -1,4 +1,4 @@
-package work.nich.tima.common.paging
+package work.nich.tima.common.pagination
 
 data class LoadingStatus(var status: Status, var message: String = "", var errorType: ErrorType = ErrorType.UNKNOWN) {
 

@@ -1,4 +1,4 @@
-package work.nich.tima.common.paging
+package work.nich.tima.common.pagination
 
 enum class LoadType {
 

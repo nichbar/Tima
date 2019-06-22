@@ -1,4 +1,4 @@
-package work.nich.tima.common.paging
+package work.nich.tima.common.pagination
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -11,10 +11,9 @@ import work.nich.tima.common.util.NetworkUtils
 class ListRepository<T>(
     private val mCallMethod: CallMethod<List<T>>,
     private var mApplication: Application,
-    private val offlineAvailable: Boolean
-) {
+    private val mOfflineAvailable: Boolean) {
 
-    private var mPage = 1
+    private var mContinuation = ""
 
     private val mList = ArrayList<T>()
 
@@ -26,7 +25,7 @@ class ListRepository<T>(
 
     fun load(type: LoadType) {
 
-        if (!offlineAvailable && !NetworkUtils.isNetworkConnected(mApplication)) {
+        if (!mOfflineAvailable && !NetworkUtils.isNetworkConnected(mApplication)) {
             when (type) {
                 LoadType.INITIAL, LoadType.LOAD_MORE -> loadMoreStatus.postValue(LoadingStatus.errorNoInternetConnection())
                 LoadType.REFRESH -> refreshStatus.postValue(LoadingStatus.errorNoInternetConnection())
@@ -67,7 +66,7 @@ class ListRepository<T>(
 
         loadMoreStatus.postValue(LoadingStatus(status = LoadingStatus.Status.LOADING))
 
-        mCallMethod.load(mPage).subscribeOn(Schedulers.io())
+        mCallMethod.load(mContinuation).subscribeOn(Schedulers.io())
             .subscribe(object : Response<List<T>>() {
                 override fun onSuccess(data: List<T>) {
                     loadMoreStatus.postValue(LoadingStatus(status = LoadingStatus.Status.SUCCESS))
@@ -76,7 +75,7 @@ class ListRepository<T>(
                         reachTheEnd = true
                         loadMoreStatus.postValue(LoadingStatus(status = LoadingStatus.Status.REACH_THE_END))
                     } else {
-                        mPage++
+                        mContinuation == ""
                     }
 
                     mList.addAll(data)
@@ -98,16 +97,15 @@ class ListRepository<T>(
     private fun refresh() {
         if (refreshStatus.value?.status == LoadingStatus.Status.LOADING) return
 
-        mPage = 1
+        mContinuation = ""
         mList.clear()
         reachTheEnd = false
 
         refreshStatus.postValue(LoadingStatus(status = LoadingStatus.Status.LOADING))
 
-        mCallMethod.load(mPage).subscribeOn(Schedulers.io())
+        mCallMethod.load(mContinuation).subscribeOn(Schedulers.io())
             .subscribe(object : Response<List<T>>() {
                 override fun onSuccess(data: List<T>) {
-                    mPage++
                     mList.addAll(data)
                     listLiveData.postValue(mList)
                     refreshStatus.postValue(LoadingStatus(status = LoadingStatus.Status.SUCCESS))
@@ -120,9 +118,12 @@ class ListRepository<T>(
     }
 
     interface CallMethod<V> {
-        fun load(page: Int): Single<V>
+        fun load(continuation: String): Single<V>
 
         // Check if the list meets the end by comparing itemCount with preset pageSize.
         fun reachTheEnd(itemCount: Int): Boolean
+
+        // Update continuation for the next load
+        fun updateContinuation(continuation: String)
     }
 }

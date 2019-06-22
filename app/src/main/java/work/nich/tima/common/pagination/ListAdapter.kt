@@ -1,4 +1,4 @@
-package work.nich.tima.common.paging
+package work.nich.tima.common.pagination
 
 import android.annotation.SuppressLint
 import android.app.Activity
